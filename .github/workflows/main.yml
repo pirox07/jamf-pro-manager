@@ -1,0 +1,64 @@
+name: Deploy Jamf Pro Configuration
+on:
+  push:
+    branches:
+      -  main
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: set up
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.14.5' # The Go version to download (if necessary) and use.
+      - name: go version
+        run: go version
+      - name: check out
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Get dependencies
+        run: go get
+      - name: build
+        run: go build deploy.go
+      - name: deploy
+        env:
+          JAMF_URL: "https://<your-tenant-name>.jamfcloud.com"
+          JAMF_USER: "<User name of Jamf Pro account>"
+          JAMF_USER_PASSWORD: ${{ secrets.JAMF_USER_PASSWORD }}
+          TARGET_DIR: ""
+        run: |
+          arr=()
+          arr=(`git diff HEAD^ HEAD | grep 'diff --git' | awk -F " " '{print $3}' | awk -F "/" '{print $2}' | uniq`)
+          echo "Detect changes: ${arr[*]}"
+          echo "count: ${#arr[@]}"
+          if [ ${#arr[@]} -gt 2 ]; then
+            echo "There are differences in multiple directories."
+            exit 1
+          fi
+          if [ ${arr[0]} = "template" ] \
+             ||  [ ${arr[0]} = ".github" ] \
+             ||  [ ${arr[0]} = "utilities" ] \
+             ||  [ ${arr[0]} = "docs" ]; then
+            echo "${arr[0]} is not a deployment target."
+            exit 1
+          fi
+          if [ -d ${arr[0]} ]; then
+            TARGET_DIR=${arr[0]}
+          else
+            echo "${arr[0]} is not directory"
+            exit 1
+          fi
+          ./deploy
+      - name: git setting
+        run: |
+          git config --local user.email "dummy-address"
+          git config --local user.name "jamf-pro-manager"
+      - name: Commit deployConfig.yml
+        run: |
+          if (git diff --shortstat | grep '[0-9]'); then \
+            git add `git diff --name-only | grep 'deployConfig.yml'` ;\
+            git commit -m "auto-commit (update deployConfig.yml)" ;\
+            git pull origin main ;\
+            git push origin main ;\
+          fi

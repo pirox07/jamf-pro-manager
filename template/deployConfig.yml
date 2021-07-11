@@ -1,0 +1,194 @@
+policy:
+  general:
+    id: 0
+    name: # Require
+    enabled: # [ true, false ]
+    trigger:
+    trigger_checkin: # [ true, false ]
+    trigger_enrollment_complete: # [ true, false ]
+    trigger_login: # [ true, false ]
+    trigger_logout: # [ true, false ]
+    trigger_network_state_changed: # [ true, false ]
+    trigger_startup: # [ true, false ]
+    trigger_other:
+    frequency: # [ Once per computer, Once per user per computer, Once per user, Once every day, Once every week, Once every month, Ongoing ]
+    offline: # [ true, false ]
+    retry_event: # [ none, trigger, check-in ]
+    retry_attempts:
+    notify_on_each_failed_retry: # [ true, false ]
+    location_user_only:
+    target_drive:
+    category:
+      id:
+      name:
+    date_time_limitations:
+    network_limitations:
+    override_default_settings:
+    network_requirements:
+    site:
+  scope:
+    all_computers: # [ true, false ]
+    computers:
+      computer:
+    computer_groups:
+      computer_group:
+    buildings:
+      building:
+    departments:
+      department:
+    limit_to_users:
+      user_groups:
+        usrgroups:
+    limitations:
+      users:
+        user:
+      user_groups:
+        user_group:
+      network_segments:
+        network_segment":
+      ibeacons:
+        ibeacon:
+    exclusions:
+      computers:
+        computer:
+      computer_groups:
+        computer_group:
+      buildings:
+        building:
+      departments:
+        department:
+      users:
+        user:
+      user_groups:
+        user_group:
+      network_segments:
+        networksegment:
+      ibeacons:
+        ibeacon:
+  self_service:
+    use_for_self_service: # [ true, false ]
+    self_service_display_name:
+    install_button_text:
+    reinstall_button_text:
+    self_service_description:
+    force_users_to_view_description: # [ true, false ]
+    self_service_icon:
+      id:
+      name:
+      url:
+    feature_on_main_page: # [ true, false ]
+    self_service_categories:
+      category:
+  package_configuration:
+    packages:
+      size:
+      package:
+  scripts:
+    size: 1
+    script:
+      - id: 0
+        name: # required
+        priority:  # required, [ BEFORE, AFTER, AT_REBOOT ]
+        parameter4:
+        parameter5:
+        parameter6:
+        parameter7:
+        parameter8:
+        parameter9:
+        parameter10:
+        parameter11:
+  printers:
+    size:
+    leave_existing_default:
+    printer:
+  account_maintenance:
+    accounts:
+      size:
+      account:
+    directory_bindings:
+      size:
+      binding:
+    management_account:
+      action: # [ specified, random, reset, fileVaultEnable, fileVaultDisable ]
+      managedpassword:
+      managedpasswordlength:
+    open_firmware_efi_password:
+      ofmode: # [ command, none ]
+      ofpassword:
+  reboot_settings:
+    message:
+    startup_disk:
+    specify_startup:
+    no_user_logged_in:
+    user_logged_in:
+    minutes_until_reboot:
+    start_reboot_timer_immediately: # [ true, false ]
+    file_value_2_reboot:
+  maintenance:
+    recon: # [ true, false ]
+    reset_name: # [ true, false ]
+    install_all_cached_packages: # [ true, false ]
+    heal: # [ true, false ]
+    prebindings: # [ true, false ]
+    permissions: # [ true, false ]
+    byhost: # [ true, false ]
+    system_cache: # [ true, false ]
+    user_cache: # [ true, false ]
+    verify: # [ true, false ]
+  files_processes:
+    search_by_path:
+    delete_file: # [ true, false ]
+    locate_file:
+    uupdate_locate_database: # [ true, false ]
+    spotlight_search:
+    search_for_process:
+    kill_process: # [ true, false ]
+    run_command:
+  user_interaction:
+    message_start:
+    allow_users_to_defer:  # [ true, false ]
+    allow_deferral_until_utc:
+    allow_deferral_minutes:
+    message_finish:
+  disk_encryption:
+    action: # [ apply, remediate ]
+    disk_encryption_configuration_id:
+    auth_restart: # [ true, false ]
+    remediate_key_type:
+    remediate_disk_encryption_configuration_id:
+script:
+  - id: 0 # Required, 0: Create, 1~: Update
+    name: # Required
+    info:
+    notes: (Auto Define)
+    priority: # Required, [ BEFORE, AFTER, AT_REBOOT ]
+    categoryId: # Required
+    categoryName:
+    parameter4:
+    parameter5:
+    parameter6:
+    parameter7:
+    parameter8:
+    parameter9:
+    parameter10:
+    parameter11:
+    osRequirements:
+    scriptContents: (look at script file)
+category:
+  - id:  # Required, 0: Create, 1~: Update
+    name: # Required
+    priority:
+computer_group:
+  - id: # Required, 0: Create, 1~: Update
+    name: # Required
+    is_smart: # Required, [ true, false ]
+    criteria:
+      size: 1
+      criterion:
+        - name:
+          priority:
+          and_or: and # [ and, or ]
+          search_type: # [ is, false ]
+          value:
+          opening_paren: # [ true, false ]
+          closing_paren: # [ true, false ]
